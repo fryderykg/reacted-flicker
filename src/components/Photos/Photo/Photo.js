@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import './photo.css';
 import axios from "axios/index";
+import Spinner from '../../UI/Spinner/Spinner';
 
 class Photo extends Component {
   SRC = 'https://farm' + this.props.farm + '.staticflickr.com/' + this.props.server + '/' + this.props.id + '_' + this.props.secret + '.jpg';
@@ -48,7 +49,7 @@ class Photo extends Component {
   };
 
   render () {
-    let image = null;
+    let image = <Spinner/>;
 
     if (this.state.imageLoaded) {
       image = (
@@ -65,10 +66,12 @@ class Photo extends Component {
     if (this.state.allDataLoaded) {
       photo = (
         <div className='Photo'>
-          {image}
-          <p className='Photo__title'>{this.props.title}</p>
-          <p className='Photo__author'>{this.state.author}</p>
-          <p className='Photo__date'>{this.state.date}</p>
+          <div className='Photo__imgWrapper'>
+            {image}
+          </div>
+          <div className='Photo__title'>{this.props.title}</div>
+          <div className='Photo__author'>{this.state.author}</div>
+          <div className='Photo__date'>{this.state.date}</div>
         </div>
       )
     }
