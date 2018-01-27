@@ -59,7 +59,10 @@ class Photo extends Component {
 
     let photo = (
       <div className='Photo'>
-        empty
+        <div className='Photo__imgWrapper'>
+          {image}
+        </div>
+        <div className='Photo__caption'></div>
       </div>
     );
 
@@ -69,9 +72,11 @@ class Photo extends Component {
           <div className='Photo__imgWrapper'>
             {image}
           </div>
-          <div className='Photo__title'>{this.props.title}</div>
-          <div className='Photo__author'>{this.state.author}</div>
-          <div className='Photo__date'>{this.state.date}</div>
+          <div className='Photo__caption'>
+            <div className='Photo__title'>{this.props.title}</div>
+            <div className='Photo__author'>by {this.state.author}</div>
+            <div className='Photo__date'>on {this.state.date}</div>
+          </div>
         </div>
       )
     }

@@ -6,8 +6,6 @@ import './photos.css';
 const Photos = props => {
 
   const photos = props.photos.photo.map(photo => {
-    // const SRC = 'https://farm' + photo.farm + '.staticflickr.com/' + photo.server + '/' + photo.id + '_' + photo.secret + '.jpg';
-
     return (
       <Photo key={photo.id}
              farm={photo.farm}
@@ -18,8 +16,6 @@ const Photos = props => {
              author={photo.owner}/>
     )
   });
-
-  console.log(photos);
 
   return (
     <div className="Photos">

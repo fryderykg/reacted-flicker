@@ -1,15 +1,17 @@
 .Photo {
   border: 1px solid lightgrey;
   border-radius: 5px;
-  margin: 1%;
-  width: 23%;
+  margin-bottom: 50px;
+  overflow: hidden;
 }
 
+
 .Photo__imgWrapper {
-  height: 200px;
+  height: 300px;
   position: relative;
   overflow: hidden;
 }
+
 
 .Photo__img {
   min-height: 100%;
@@ -18,10 +20,63 @@
   object-position: center;
 }
 
-.Photo__title {
+.Photo__caption {
+  margin: 10px;
+}
 
+.Photo__title,
+.Photo__author,
+.Photo__date {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.Photo__title {
+  font-weight: 600;
+  margin-bottom: 5px;
 }
 
 .Photo__author {
+  color: gray;
+}
 
+.Photo__date {
+  color: grey;
+}
+@media (min-width: 1400px) {
+  .Photo {
+    width: 23%;
+  }
+
+  .Photo:not(:nth-of-type(4n)) {
+    margin-right: 2.666%;
+  }
+}
+
+@media (min-width: 1001px) and (max-width: 1400px) {
+  .Photo {
+    width: 31%;
+  }
+
+  .Photo:not(:nth-of-type(3n)) {
+    margin-right: 3.5%;
+  }
+}
+
+@media (min-width: 501px) and (max-width: 1000px) {
+  .Photo {
+    width: 48%;
+  }
+
+  .Photo:not(:nth-of-type(2n)) {
+    margin-right: 4%;
+  }
+}
+
+@media (max-width: 500px) {
+  .Photo {
+    width: 100%;
+  }
 }
