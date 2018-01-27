@@ -1,4 +1,4 @@
-import React, {Component, Fragment} from 'react';
+import React, {Component} from 'react';
 import Gallery from './containers/Gallery/Gallery';
 import './App.css';
 

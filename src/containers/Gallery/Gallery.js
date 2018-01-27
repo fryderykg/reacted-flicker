@@ -5,17 +5,16 @@ import './gallery.css';
 
 class Gallery extends Component {
 
-  KEY = '9292fc3d2a1f09a6e56f7d40f7170cb6';
-
   state = {
-    photos: []
+    photos: null
   };
 
   componentWillMount() {
-    const URL = 'https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=9292fc3d2a1f09a6e56f7d40f7170cb6';
+    const URL = 'https://api.flickr.com/services/rest/?method=flickr.photos.search';
+    const KEY = '9292fc3d2a1f09a6e56f7d40f7170cb6';
     const PER_PAGE = 10;
-    const TEXT = 'dog';
-    const UPDATED_URL = URL + '&text=' + TEXT + '&per_page=' + PER_PAGE + '&format=json&nojsoncallback=1';
+    const TEXT = 'dogs';
+    const UPDATED_URL = URL + '&api_key=' + KEY + '&text=' + TEXT + '&per_page=' + PER_PAGE + '&format=json&nojsoncallback=1';
     console.log(UPDATED_URL);
     axios.get(UPDATED_URL)
       .then(response => {
@@ -31,9 +30,15 @@ class Gallery extends Component {
   }
 
   render() {
+    let photos = null;
+
+    if (this.state.photos) {
+      photos = <Photos photos={this.state.photos}/>
+    }
+
     return (
       <div className='Gallery'>
-        <Photos photos={this.state.photos}/>
+        {photos}
       </div>
     );
   }

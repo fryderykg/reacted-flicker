@@ -1,0 +1,4 @@
+.Photos {
+  display: flex;
+  flex-wrap: wrap;
+}
