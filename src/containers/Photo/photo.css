@@ -3,15 +3,14 @@
   border-radius: 5px;
   margin-bottom: 50px;
   overflow: hidden;
+  position: relative;
 }
-
 
 .Photo__imgWrapper {
   height: 300px;
-  position: relative;
   overflow: hidden;
+  position: relative;
 }
-
 
 .Photo__img {
   min-height: 100%;
@@ -27,10 +26,10 @@
 .Photo__title,
 .Photo__author,
 .Photo__date {
-  width: 100%;
-  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
 }
 
 .Photo__title {
@@ -45,6 +44,7 @@
 .Photo__date {
   color: grey;
 }
+
 @media (min-width: 1400px) {
   .Photo {
     width: 23%;

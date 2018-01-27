@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import './photo.css';
 import axios from "axios/index";
-import Loader from '../../UI/Loader/Loader';
+import Loader from '../../components/UI/Loader/Loader';
 
 class Photo extends Component {
   SRC = 'https://farm' + this.props.farm + '.staticflickr.com/' + this.props.server + '/' + this.props.id + '_' + this.props.secret + '.jpg';
@@ -57,10 +57,9 @@ class Photo extends Component {
 
     let photo = (
       <div className='Photo'>
-        <div className='Photo__imgWrapper'>
-          {image}
-        </div>
+        <div className='Photo__imgWrapper'/>
         <div className='Photo__caption'/>
+        <Loader/>
       </div>
     );
 

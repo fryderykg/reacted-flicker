@@ -1,5 +1,5 @@
 import React from 'react';
-import Photo from './Photo/Photo';
+import Photo from '../../containers/Photo/Photo';
 import PropTypes from 'prop-types';
 import './photos.css';
 
