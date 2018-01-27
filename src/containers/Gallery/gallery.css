@@ -1,3 +1,26 @@
 .Gallery {
+  margin: 0 auto;
+  max-width: 1600px;
+  width: 80%;
+}
 
+.Gallery__loader {
+  min-height: 150px;
+  position: relative;
+}
+
+@media (min-width: 1001px) and (max-width: 1400px) {
+
+}
+
+@media (min-width: 501px) and (max-width: 1000px) {
+  .Gallery {
+    width: 90%;
+  }
+}
+
+@media (max-width: 500px) {
+  .Gallery {
+    width: 95%;
+  }
 }

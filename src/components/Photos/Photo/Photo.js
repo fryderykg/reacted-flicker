@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import './photo.css';
 import axios from "axios/index";
-import Spinner from '../../UI/Spinner/Spinner';
+import Loader from '../../UI/Loader/Loader';
 
 class Photo extends Component {
   SRC = 'https://farm' + this.props.farm + '.staticflickr.com/' + this.props.server + '/' + this.props.id + '_' + this.props.secret + '.jpg';
@@ -22,10 +22,8 @@ class Photo extends Component {
     const PHOTO_ID = this.props.id;
     const SECRET = this.props.secret;
     const UPDATED_URL = URL + '&api_key=' + KEY + '&photo_id=' + PHOTO_ID + '&secret=' + SECRET + '&format=json&nojsoncallback=1';
-    // console.log(UPDATED_URL);
     axios.get(UPDATED_URL)
       .then(response => {
-        console.log(response);
         this.setState({
           allDataLoaded: true,
           author: response.data.photo.owner.username,
@@ -49,7 +47,7 @@ class Photo extends Component {
   };
 
   render () {
-    let image = <Spinner/>;
+    let image = <Loader/>;
 
     if (this.state.imageLoaded) {
       image = (
@@ -62,7 +60,7 @@ class Photo extends Component {
         <div className='Photo__imgWrapper'>
           {image}
         </div>
-        <div className='Photo__caption'></div>
+        <div className='Photo__caption'/>
       </div>
     );
 

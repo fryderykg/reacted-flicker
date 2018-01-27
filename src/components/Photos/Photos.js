@@ -5,7 +5,7 @@ import './photos.css';
 
 const Photos = props => {
 
-  const photos = props.photos.photo.map(photo => {
+  const photos = props.photos.map(photo => {
     return (
       <Photo key={photo.id}
              farm={photo.farm}
@@ -26,7 +26,7 @@ const Photos = props => {
 
 
 Photos.propTypes = {
-  photos: PropTypes.object
+  photos: PropTypes.array
 };
 
 export default Photos;
