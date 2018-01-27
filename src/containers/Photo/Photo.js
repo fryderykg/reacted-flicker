@@ -7,7 +7,6 @@ import Loader from '../../components/UI/Loader/Loader';
 class Photo extends Component {
   SRC = 'https://farm' + this.props.farm + '.staticflickr.com/' + this.props.server + '/' + this.props.id + '_' + this.props.secret + '.jpg';
 
-
   state = {
     imageLoaded: false,
     allDataLoaded: false,
@@ -82,6 +81,10 @@ class Photo extends Component {
   }
 }
 
-Photo.propTypes = {};
+Photo.propTypes = {
+  id: PropTypes.string,
+  secret: PropTypes.string,
+  title: PropTypes.string
+};
 
 export default Photo;
