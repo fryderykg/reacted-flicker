@@ -7,7 +7,7 @@ const Photos = props => {
 
   const photos = props.photos.map(photo => {
     return (
-      <Photo key={photo.id}
+      <Photo key={photo.key}
              farm={photo.farm}
              server={photo.server}
              secret={photo.secret}

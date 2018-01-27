@@ -27,20 +27,25 @@ class Gallery extends Component {
   };
 
   fetchData = () => {
-    console.log('before fetch')
     if (!this.state.fetchingInProgress) {
       this.setState({
         fetchingInProgress: true
       });
-      console.log('fetch data', this.state.currentPage);
       const UPDATED_URL = this.URL + '&api_key=' + this.KEY + '&text=' + this.TEXT
         + '&per_page=' + this.state.perPage + '&page=' + this.state.currentPage
         + '&sort=relevance&format=json&nojsoncallback=1';
 
       axios.get(UPDATED_URL)
         .then(response => {
-          const updatedPhotos = this.state.photos.concat(response.data.photos.photo);
+          const photosWithKey = response.data.photos.photo.map(el => {
+            el.key = Date.now() + el.id;
 
+            return el
+          });
+
+          const updatedPhotos = this.state.photos.concat(photosWithKey);
+
+          console.log(updatedPhotos);
           this.setState({
             photos: updatedPhotos,
             currentPage: this.state.currentPage + 1,
@@ -54,6 +59,7 @@ class Gallery extends Component {
   };
 
 
+  // Initialize Fetching Date when scroll to the bottom
   handleOnScroll = ()  => {
     const scrollTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
     const scrollHeight = (document.documentElement && document.documentElement.scrollHeight) || document.body.scrollHeight;
