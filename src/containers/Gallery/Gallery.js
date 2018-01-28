@@ -17,8 +17,8 @@ class Gallery extends Component {
     photos: [],
     fetchingInProgress: false,
     currentPage: 1,
-    perPage: 10,
-    text: 'cat',
+    perPage: 100,
+    text: '',
     searchText: '',
     tags: '',
     speciesSelected: false
