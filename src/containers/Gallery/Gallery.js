@@ -40,9 +40,10 @@ class Gallery extends Component {
       axios.get(UPDATED_URL)
         .then(response => {
           const photosWithKey = response.data.photos.photo.map(el => {
-            el.key = Date.now() + el.id;
-
-            return el
+            return {
+              ...el,
+              key: Date.now() + el.id
+            }
           });
 
           const updatedPhotos = this.state.photos.concat(photosWithKey);
