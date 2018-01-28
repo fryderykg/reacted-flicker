@@ -14,14 +14,16 @@ class Gallery extends Component {
   KEY = '9292fc3d2a1f09a6e56f7d40f7170cb6';
 
   state = {
-    photos: [],
-    fetchingInProgress: false,
     currentPage: 1,
+    endOfPhotos: false,
+    fetchingInProgress: false,
+    noPhotosOfCurrentParams: false,
     perPage: 100,
-    text: '',
+    photos: [],
     searchText: '',
+    speciesSelected: false,
     tags: '',
-    speciesSelected: false
+    text: ''
   };
 
   componentDidMount() {
@@ -45,19 +47,31 @@ class Gallery extends Component {
       axios.get(UPDATED_URL)
         .then(response => {
           if (response) {
-            const photosWithKey = response.data.photos.photo.map(el => {
-              return {
-                ...el,
-                key: Date.now() + el.id
-              }
-            });
+            if(response.data.photos.photo.length === 0) {
+              this.setState({
+                noPhotosOfCurrentParams: true
+              });
+            } else {
+              const photosWithKey = response.data.photos.photo.map(el => {
+                return {
+                  ...el,
+                  key: Date.now() + el.id
+                }
+              });
 
-            const updatedPhotos = this.state.photos.concat(photosWithKey);
-            this.setState({
-              photos: updatedPhotos,
-              currentPage: this.state.currentPage + 1,
-              fetchingInProgress: false
-            })
+              const updatedPhotos = this.state.photos.concat(photosWithKey);
+              this.setState({
+                photos: updatedPhotos,
+                currentPage: this.state.currentPage + 1,
+                fetchingInProgress: false
+              })
+            }
+            // Reach end of photos
+            if(response.data.photos.page === response.data.photos.pages) {
+              this.setState({
+                endOfPhotos: true
+              })
+            }
           }
           this.setState({
             fetchingInProgress: false
@@ -76,7 +90,7 @@ class Gallery extends Component {
     const clientHeight = document.documentElement.clientHeight || window.innerHeight;
     const scrolledToBottom = Math.ceil(scrollTop + clientHeight) >= scrollHeight;
 
-    if (scrolledToBottom) {
+    if (scrolledToBottom && !this.state.endOfPhotos) {
       this.fetchData();
     }
   };
@@ -111,7 +125,8 @@ class Gallery extends Component {
   fetchingNewData = () => {
     this.setState({
       photos: [],
-      currentPage: 1
+      currentPage: 1,
+      endOfPhotos: false
     });
     setTimeout(() => {this.fetchData()}, 100);
   };
@@ -120,10 +135,19 @@ class Gallery extends Component {
     let photos = null;
     let loader = null;
     let search = null;
+    let errorInfo = null;
 
     if (this.state.photos.length > 0 && this.state.speciesSelected) {
       photos = <Photos photos={this.state.photos}/>
     }
+
+    if(this.state.noPhotosOfCurrentParams) {
+      errorInfo = <div className='Gallery__errorInfo'>no photos of current search criteria</div>
+    } else if (this.state.endOfPhotos) {
+      errorInfo = <div className='Gallery__errorInfo'>no more photos</div>
+    }
+
+
 
     if (this.state.speciesSelected) {
       search = <SearchBar inputChanged={this.onInputChangedHandler}
@@ -145,6 +169,7 @@ class Gallery extends Component {
         <Controls onChangeSpecies={this.onChangeSpeciesHandler}/>
         {search}
         {photos}
+        {errorInfo}
         {loader}
       </div>
     );
