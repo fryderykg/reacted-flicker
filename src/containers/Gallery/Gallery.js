@@ -2,24 +2,26 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import Photos from '../../components/Photos/Photos';
 import Loader from '../../components/UI/Loader/Loader';
+import Controls from '../../components/Controls/Controls';
 import './gallery.css';
 
 class Gallery extends Component {
 
   URL = 'https://api.flickr.com/services/rest/?method=flickr.photos.search';
   KEY = '9292fc3d2a1f09a6e56f7d40f7170cb6';
-  TEXT = 'dogs';
 
   state = {
     photos: [],
     fetchingInProgress: false,
     currentPage: 1,
-    perPage: 10
+    perPage: 10,
+    text: 'cat',
+    speciesSelected: false
   };
 
   componentDidMount() {
     window.addEventListener('scroll', this.handleOnScroll);
-    this.fetchData();
+
   };
 
   componentWillUnmount() {
@@ -31,7 +33,7 @@ class Gallery extends Component {
       this.setState({
         fetchingInProgress: true
       });
-      const UPDATED_URL = this.URL + '&api_key=' + this.KEY + '&text=' + this.TEXT
+      const UPDATED_URL = this.URL + '&api_key=' + this.KEY + '&text=' + this.state.text
         + '&per_page=' + this.state.perPage + '&page=' + this.state.currentPage
         + '&sort=relevance&format=json&nojsoncallback=1';
 
@@ -58,7 +60,6 @@ class Gallery extends Component {
     }
   };
 
-
   // Initialize Fetching Date when scroll to the bottom
   handleOnScroll = ()  => {
     const scrollTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
@@ -71,11 +72,21 @@ class Gallery extends Component {
     }
   };
 
+  onChangeSpeciesHandler = (species) => {
+    this.setState({
+      photos: [],
+      text: species,
+      currentPage: 1,
+      speciesSelected: true
+    });
+    setTimeout(() => {this.fetchData()}, 100);
+  };
+
   render() {
     let photos = null;
     let loader = null;
 
-    if (this.state.photos.length > 0) {
+    if (this.state.photos.length > 0 && this.state.speciesSelected) {
       photos = <Photos photos={this.state.photos}/>
     }
 
@@ -89,6 +100,7 @@ class Gallery extends Component {
 
     return (
       <div className='Gallery'>
+        <Controls onChangeSpecies={this.onChangeSpeciesHandler}/>
         {photos}
         {loader}
       </div>

@@ -1,0 +1,14 @@
+.Controls {
+  min-height: 150px;
+  padding: 50px 25px;
+  text-align: center;
+}
+
+.Controls__info {
+  font-size: 2rem;
+  margin-bottom: 15px;
+}
+
+.Controls__buttons button{
+  margin: 0 25px;
+}
