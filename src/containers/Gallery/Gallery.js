@@ -3,6 +3,8 @@ import axios from 'axios';
 import Photos from '../../components/Photos/Photos';
 import Loader from '../../components/UI/Loader/Loader';
 import Controls from '../../components/Controls/Controls';
+import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
+
 import './gallery.css';
 
 class Gallery extends Component {
@@ -33,27 +35,30 @@ class Gallery extends Component {
       this.setState({
         fetchingInProgress: true
       });
-      const UPDATED_URL = this.URL + '&api_key=' + this.KEY + '&text=' + this.state.text
+      const UPDATED_URL = this.URL + '&api_key=' + this.KEY + '&ext=' + this.state.text
         + '&per_page=' + this.state.perPage + '&page=' + this.state.currentPage
         + '&sort=relevance&format=json&nojsoncallback=1';
 
       axios.get(UPDATED_URL)
         .then(response => {
-          const photosWithKey = response.data.photos.photo.map(el => {
-            return {
-              ...el,
-              key: Date.now() + el.id
-            }
-          });
+          if (response) {
+            const photosWithKey = response.data.photos.photo.map(el => {
+              return {
+                ...el,
+                key: Date.now() + el.id
+              }
+            });
 
-          const updatedPhotos = this.state.photos.concat(photosWithKey);
-
-          console.log(updatedPhotos);
+            const updatedPhotos = this.state.photos.concat(photosWithKey);
+            this.setState({
+              photos: updatedPhotos,
+              currentPage: this.state.currentPage + 1,
+              fetchingInProgress: false
+            })
+          }
           this.setState({
-            photos: updatedPhotos,
-            currentPage: this.state.currentPage + 1,
             fetchingInProgress: false
-          })
+          });
         })
         .catch(error => {
           console.log(error)
@@ -109,4 +114,4 @@ class Gallery extends Component {
   }
 }
 
-export default Gallery;
+export default withErrorHandler(Gallery, axios);
