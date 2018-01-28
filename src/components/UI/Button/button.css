@@ -4,5 +4,16 @@
   border-radius: 5px;
   cursor: pointer;
   height: 50px;
-  min-width: 100px;
+  min-width: 80px;
+  transition: background-color .2s ease;
+}
+
+.Button:hover {
+  background-color: lightgrey;
+}
+
+@media (max-width: 500px) {
+  .Button {
+    height: 40px;
+  }
 }

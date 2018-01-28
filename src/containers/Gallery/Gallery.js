@@ -3,6 +3,7 @@ import axios from 'axios';
 import Photos from '../../components/Photos/Photos';
 import Loader from '../../components/UI/Loader/Loader';
 import Controls from '../../components/Controls/Controls';
+import SearchBar from '../../components/SearchBar/SearchBar'
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 
 import './gallery.css';
@@ -18,6 +19,8 @@ class Gallery extends Component {
     currentPage: 1,
     perPage: 10,
     text: 'cat',
+    searchText: '',
+    tags: '',
     speciesSelected: false
   };
 
@@ -35,7 +38,7 @@ class Gallery extends Component {
       this.setState({
         fetchingInProgress: true
       });
-      const UPDATED_URL = this.URL + '&api_key=' + this.KEY + '&ext=' + this.state.text
+      const UPDATED_URL = this.URL + '&api_key=' + this.KEY + '&text=' + this.state.text + '&tags=' + this.state.tags
         + '&per_page=' + this.state.perPage + '&page=' + this.state.currentPage
         + '&sort=relevance&format=json&nojsoncallback=1';
 
@@ -88,12 +91,45 @@ class Gallery extends Component {
     setTimeout(() => {this.fetchData()}, 100);
   };
 
+  onInputChangedHandler = (e) => {
+    this.setState({
+      searchText: e.target.value,
+      tags: e.target.value.split(' ').join(',')
+    });
+  };
+
+  inputOnKeyPressHandler = (e) => {
+    if (e.key === 'Enter') {
+      this.fetchingNewData()
+    }
+  };
+
+  onSearchHandler = () => {
+    this.fetchingNewData();
+  };
+
+  fetchingNewData = () => {
+    this.setState({
+      photos: [],
+      currentPage: 1
+    });
+    setTimeout(() => {this.fetchData()}, 100);
+  };
+
   render() {
     let photos = null;
     let loader = null;
+    let search = null;
 
     if (this.state.photos.length > 0 && this.state.speciesSelected) {
       photos = <Photos photos={this.state.photos}/>
+    }
+
+    if (this.state.speciesSelected) {
+      search = <SearchBar inputChanged={this.onInputChangedHandler}
+                          inputOnKeyPress={this.inputOnKeyPressHandler}
+                          inputValue={this.state.searchText}
+                          btnClicked={this.onSearchHandler}/>
     }
 
     if(this.state.fetchingInProgress) {
@@ -107,6 +143,7 @@ class Gallery extends Component {
     return (
       <div className='Gallery'>
         <Controls onChangeSpecies={this.onChangeSpeciesHandler}/>
+        {search}
         {photos}
         {loader}
       </div>
